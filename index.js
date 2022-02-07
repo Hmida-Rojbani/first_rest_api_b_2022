@@ -2,12 +2,17 @@ const express = require("express");
 const Joi = require("joi");
 const log = require('./logging');
 const morgan = require('morgan');
+const config = require('config');
+
 const port = process.env.PORT || 3000;
 const app = express();
 
 //console.log(process.env.NODE_ENV);
-//console.log(app.get('env'));
-
+console.log(app.get('env'));
+console.log('App name : ',config.get('app-name'));
+//console.log('connect Db host : ', 'ip localhost');
+console.log('connect Db host : ', config.get('DB.host'));
+console.log('connect Db pass : ', config.get('DB.password'));
 if(app.get('env') === 'development'){
     app.use(morgan('dev'));
 }
