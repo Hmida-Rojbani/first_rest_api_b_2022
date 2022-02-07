@@ -1,8 +1,16 @@
 const express = require("express");
 const Joi = require("joi");
-
+const log = require('./logging');
+const morgan = require('morgan');
 const port = process.env.PORT || 3000;
 const app = express();
+
+//console.log(process.env.NODE_ENV);
+//console.log(app.get('env'));
+
+if(app.get('env') === 'development'){
+    app.use(morgan('dev'));
+}
 
 let students = [
   { id: 1, name: "student1" },
@@ -13,6 +21,8 @@ let students = [
 app.get("/api/students", (req, res) => {
   res.send(students);
 });
+
+
 
 app.get("/api/students/:id", (req, res) => {
   const student = students.find((s) => s.id === parseInt(req.params.id));
