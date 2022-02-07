@@ -3,16 +3,18 @@ const Joi = require("joi");
 const log = require('./logging');
 const morgan = require('morgan');
 const config = require('config');
+const appDebug = require('Debug')('app:debug');
+const dbDebug = require('Debug')('app:db');
 
 const port = process.env.PORT || 3000;
 const app = express();
 
 //console.log(process.env.NODE_ENV);
-console.log(app.get('env'));
-console.log('App name : ',config.get('app-name'));
+appDebug(app.get('env'));
+appDebug('App name : ',config.get('app-name'));
 //console.log('connect Db host : ', 'ip localhost');
-console.log('connect Db host : ', config.get('DB.host'));
-console.log('connect Db pass : ', config.get('DB.password'));
+dbDebug('connect Db host : ', config.get('DB.host'));
+dbDebug('connect Db pass : ', config.get('DB.password'));
 if(app.get('env') === 'development'){
     app.use(morgan('dev'));
 }
@@ -74,4 +76,4 @@ app.delete("/api/students/:id", (req, res) => {
     students = students.filter(s => s.id !== parseInt(req.params.id))
     res.send(student);
   });
-app.listen(port, () => console.log(`Running on ${port}`));
+app.listen(port, () => appDebug(`Running on ${port}`));
